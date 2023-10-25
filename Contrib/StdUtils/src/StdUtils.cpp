@@ -1051,7 +1051,7 @@ NSISFUNC(ExecShellWaitEx)
 		if(VALID_HANDLE(shInfo.hProcess))
 		{
 			TCHAR out[32];
-			SNPRINTF(out, 32, T("hProc:%08X"), shInfo.hProcess);
+			SNPRINTF(out, 32, T("hProc:%08p"), (void *)(shInfo.hProcess));
 			pushstring(out);
 			pushstring(_T("ok"));
 		}
@@ -1080,7 +1080,9 @@ NSISFUNC(WaitForProcEx)
 	popstringn(temp, 0);
 
 	HANDLE hProc = NULL;
-	int result = SSCANF(temp, T("hProc:%X"), &hProc);
+	void *ptr = NULL;
+	int result = SSCANF(temp, T("hProc:%p"), &ptr);
+	hProc = (HANDLE)ptr;
 
 	DWORD dwExitCode = 0;
 	bool success = false;
@@ -1656,7 +1658,7 @@ NSISFUNC(TimerCreate)
 	if(timer_create(procAddress, interval, hWndParent, extra, id))
 	{
 		TCHAR out[32];
-		SNPRINTF(out, 32, T("TimerId:%08X"), id);
+		SNPRINTF(out, 32, T("TimerId:%08p"), (void *)id);
 		pushstring(out);
 	}
 	else
@@ -1672,11 +1674,13 @@ NSISFUNC(TimerDestroy)
 	MAKESTR(temp, g_stringsize);
 
 	popstringn(temp, 0);
-	UINT_PTR id;
+	UINT_PTR id = NULL;
+	void *ptr = NULL;
 	bool success = false;
 
-	if(SSCANF(temp, T("TimerId:%X"), &id) == 1)
+	if(SSCANF(temp, T("TimerId:%p"), &ptr) == 1)
 	{
+		id = (UINT_PTR)ptr;
 		success = timer_destroy(id);
 	}
 
