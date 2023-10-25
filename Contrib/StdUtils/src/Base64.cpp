@@ -111,8 +111,8 @@ static const TCHAR basis_64[] = T("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrs
 size_t base64_decode_len(const TCHAR *const bufcoded)
 {
 	size_t nbytesdecoded;
-	register const TBYTE *bufin;
-	register size_t nprbytes;
+	const TBYTE *bufin;
+	size_t nprbytes;
 
 	bufin = (const TBYTE*)bufcoded;
 	while (pr2six[*(bufin++)] <= 63);
@@ -126,9 +126,9 @@ size_t base64_decode_len(const TCHAR *const bufcoded)
 size_t base64_decode(BYTE *const bufplain, const TCHAR *const bufcoded)
 {
 	size_t nbytesdecoded;
-	register const TBYTE *bufin;
-	register BYTE *bufout;
-	register size_t nprbytes;
+	const TBYTE *bufin;
+	BYTE *bufout;
+	size_t nprbytes;
 
 	bufin = (const TBYTE*)bufcoded;
 	while (pr2six[*(bufin++)] <= 63);
