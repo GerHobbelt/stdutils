@@ -91,7 +91,7 @@ int ShellExecAsUser(const TCHAR *const pcOperation, const TCHAR *const pcFileNam
 	if((iSuccess == SHELL_EXEC_AS_USER_FAILED) || (iSuccess == SHELL_EXEC_AS_USER_UNSUPPORTED))
 	{
 		HINSTANCE hInst = ShellExecute(parentHwnd, pcOperation, pcFileName, pcParameters, NULL, SW_SHOWNORMAL);
-		if(((int)hInst) > 32)
+		if(((unsigned long long int)hInst) > 32)
 		{
 			iSuccess = SHELL_EXEC_AS_USER_FALLBACK;
 		}
